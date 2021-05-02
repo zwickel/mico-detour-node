@@ -7,5 +7,5 @@ functions:
     lang: node
     handler: ./mico-detour-node
     image: zwickel/mico-detour-node:latest
-    environment: 
-      redis: openfaas-redis-master
+    # environment: 
+    #   redis: openfaas-redis-master

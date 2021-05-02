@@ -1,15 +1,20 @@
 "use strict"
-const redis = require("redis");
+const redis = require("async-redis");
 
 module.exports = async (context, callback) => {
-    const client = redis.createClient(6379, process.env.redis);
-    client.get("detour:status", function (err, reply) {
-        if (reply === "on") {
-            context.routingslip = [["detour-channel"]]
-        }
-        client.quit();
-    });
+    const cloudEvent = JSON.parse(context)
 
-    // return {status: "done"}
-    return context;
+    let result = [];
+
+    const client = redis.createClient(6379, "redis.mico-system");
+
+    const detour = await client.get("detour:status");
+    client.quit();
+
+    if (detour === "on") {
+        cloudEvent["routingslip"] = [["detour"]];
+    }
+
+    result.push(cloudEvent);
+    return result;
 }
