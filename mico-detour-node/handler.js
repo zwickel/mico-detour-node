@@ -11,6 +11,8 @@ module.exports = async (context, callback) => {
 
     if (detour === "on") {
         cloudEvent["routingslip"] = [["detour"]];
+    } else {
+        cloudEvent["routingslip"] = [["destination"]];
     }
 
     result.push(cloudEvent);
